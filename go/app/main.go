@@ -16,10 +16,12 @@ type Counter struct {
 var counter Counter
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux := http.NewServeMux()
+	files := http.FileServer(http.Dir("public"))
+	mux.Handle("/static/", http.StripPrefix("/static/", files))
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if counter.Count == 0 {
 			counter = Counter{Count: 1, Time: time.Now()}
-
 		} else {
 			log.Printf("%v", counter.Count)
 			counter.Count = counter.Count + 1
@@ -33,7 +35,11 @@ func main() {
 		t.Execute(w, message)
 	})
 	log.Print("starting web server")
-	if err := http.ListenAndServe(":3000", nil); err != nil {
+	server := &http.Server{
+		Addr:    ":3000",
+		Handler: mux,
+	}
+	if err := server.ListenAndServe(); err != nil {
 		log.Fatal(err)
 	}
 }
