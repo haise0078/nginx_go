@@ -1,0 +1,6 @@
+.image-test {
+    background-image: url("/static/image/Fuji.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 900px;
+}

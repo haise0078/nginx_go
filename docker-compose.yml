@@ -19,3 +19,7 @@ services:
       - 8888:80
     depends_on:
       - go
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
