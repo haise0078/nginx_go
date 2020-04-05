@@ -1,7 +1,18 @@
 version: '3.7'
 
 services:
-  go:
+  go01:
+    build:
+      context: ./go
+      dockerfile: Dockerfile
+    volumes:
+      - ./go/app:/go/src/app
+    ports:
+      - 3000
+    security_opt:
+      - seccomp:unconfined
+    command: bash -c "realize start --server"
+  go02:
     build:
       context: ./go
       dockerfile: Dockerfile
@@ -17,8 +28,6 @@ services:
       context: ./nginx
     ports:
       - 8888:80
-    depends_on:
-      - go
     cap_add:
       - SYS_PTRACE
     security_opt:
