@@ -23,6 +23,17 @@ services:
     security_opt:
       - seccomp:unconfined
     command: bash -c "realize start --server"
+  go03:
+    build:
+      context: ./go
+      dockerfile: Dockerfile
+    volumes:
+      - ./go/app:/go/src/app
+    ports:
+      - 3000
+    security_opt:
+      - seccomp:unconfined
+    command: bash -c "realize start --server"
   nginx:
     build:
       context: ./nginx

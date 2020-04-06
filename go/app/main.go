@@ -21,6 +21,7 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/imageTest", imageTest)
+	mux.HandleFunc("/failTest", failTest)
 	log.Print("starting web server")
 	server := &http.Server{
 		Addr:    ":3000",
@@ -53,4 +54,9 @@ func imageTest(w http.ResponseWriter, r *http.Request) {
 	message = "This is Image Test."
 	t, _ := template.ParseFiles("template/imageTest.html")
 	t.Execute(w, message)
+}
+
+func failTest(w http.ResponseWriter, r *http.Request) {
+	log.Print("Start FailTest")
+	time.Sleep(20 * time.Second)
 }
