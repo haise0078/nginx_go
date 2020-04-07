@@ -34,11 +34,20 @@ services:
     security_opt:
       - seccomp:unconfined
     command: bash -c "realize start --server"
-  nginx:
+  nginx_proxy:
     build:
       context: ./nginx
     ports:
       - 8888:80
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+  nginx_origin:
+    build:
+      context: ./nginx_origin
+    ports:
+      - 18888:80
     cap_add:
       - SYS_PTRACE
     security_opt:
